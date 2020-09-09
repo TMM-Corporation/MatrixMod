@@ -1,0 +1,38 @@
+{
+	"Item": { // English - Default
+		"ru": "Предмет", // Русский
+		"nl": "Item",	// Nederlands
+		"de": "Element", // Deutsch
+		"es": "Elemento", // Espanol
+		"fr": "Article", // Français
+		"it": "Elemento", // Italiano
+		"pt": "Item", // Português
+		"ja": "アイテム", // Japanese 
+		"ko": "항목", // Korean
+		"zh": "项目"  // Chinese
+	},
+	"Translations may be inaccurate": {
+		"ru": "Переводы могут быть неточными",
+		"nl": "Vertalingen kunnen onjuist zijn",
+		"de": "Übersetzungen können ungenau sein",
+		"es": "Las traducciones pueden ser inexactas",
+		"fr": "Les traductions peuvent être inexacts",
+		"it": "Le traduzioni possono essere imprecise",
+		"pt": "As traduções podem ser inexactas",
+		"ja": "翻訳が不正確な場合があります",
+		"ko": "번역은 부정확 할 수 있습니다",
+		"zh": "翻译可能不准确"
+	},
+	"Loaded Your Language: English - Default": {
+		"ru": "Загружен язык: Русский",
+		"nl": "Uw Taal Geladen: Nederlands",
+		"de": "Ihre Sprache Geladen: Deutsch",
+		"es": "Cargó su idioma: Español",
+		"fr": "Chargé Votre Langue: Français",
+		"it": "Caricato La Tua Lingua: Italiano",
+		"pt": "Carregou A Sua Língua: Português",
+		"ja": "あなたの言語をロード:日本語",
+		"ko": "귀하의 언어로드:한국어",
+		"zh": "加载你的语言：中文"
+	},
+}

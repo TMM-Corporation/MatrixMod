@@ -1,0 +1,12 @@
+core/TileThreading.js
+core/MachineRegistry.js
+core/Parser.js
+core/ValkyrieLIB.js
+
+EnvironmentalTech/blocks/register.js
+EnvironmentalTech/items/register.js
+EnvironmentalTech/blocks/models.js
+EnvironmentalTech/items/assembler.js
+
+
+EnvironmentalTech/blocks/VoidMiner.js
