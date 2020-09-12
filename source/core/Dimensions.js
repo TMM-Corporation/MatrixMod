@@ -1,9 +1,9 @@
 var MatrixDimension = new Dimensions.CustomDimension("Matrix", 1200)
 var generator = new Dimensions.CustomGenerator("overworld").setModGenerationBaseDimension(0).setBuildVanillaSurfaces(true).setGenerateVanillaStructures(true)
-MatrixDimension.setCloudColor(0, 0, 0)
-MatrixDimension.setFogColor(0, 0, 0)
-MatrixDimension.setSkyColor(0, 0, 0)
-MatrixDimension.setSunsetColor(0, 0, 0)
+// MatrixDimension.setCloudColor(0, 0, 0)
+// MatrixDimension.setFogColor(0, 0, 0)
+// MatrixDimension.setSkyColor(0, 0, 0)
+// MatrixDimension.setSunsetColor(0, 0, 0)
 MatrixDimension.setFogDistance(20, 100)
 MatrixDimension.setGenerator(generator)
 
@@ -80,7 +80,7 @@ Callback.addCallback("tick", function () {
     }
 })
 
-Callback.addCallback("ClientChat", function (str) {
+Callback.addCallback("NativeCommand", function (str) {
     str = str.split(" ")
     let cmdName = str[0]
     let cmdArg = str[1]
