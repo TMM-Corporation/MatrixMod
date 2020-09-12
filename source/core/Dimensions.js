@@ -12,9 +12,9 @@ MatrixDimension.setGenerator(generator)
 // })
 Callback.addCallback("ItemUse", function (coords, item) {
     if (item.id == 280) {
-        alert("Current dim: ", Player.getDimension())
+        alert("Current dim: " + Player.getDimension())
         Dimensions.transfer(Player.get(), 1200)
-        alert("New dim: ", Player.getDimension())
+        alert("New dim: " + Player.getDimension())
     }
 })
 
@@ -49,10 +49,6 @@ var Matrix = {
         this.ticks++
     },
 
-    disable() {
-        this.ticks = 0
-    },
-
     add(coords, radius, count) {
         for (var i = 0; i < count; i++) {
             let x = coords.x - radius + Math.random() * radius * 2
@@ -67,16 +63,13 @@ var Matrix = {
 
 Matrix.regParticles(["m0", "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9",])
 
-
 Callback.addCallback("tick", function () {
-    if (Player.getDimension() !== 1200) {
-        Matrix.disable()
-    } else {
-        let coords = Entity.getPosition(Player.get())
-        if (World.getThreadTime() % 5 === 0)
+    let coords = Entity.getPosition(Player.get())
+    if (Player.getDimension() == 1200) {
+        if (World.getThreadTime() % 4 === 0) {
             World.setWorldTime(22000)
-        Matrix.tick()
-        Matrix.add(coords, 10, 4)
+            Matrix.add(coords, 5, 4)
+        }
     }
 })
 
@@ -93,17 +86,14 @@ Callback.addCallback("NativeCommand", function (str) {
             Player.setAbility(Native.PlayerAbility.NOCLIP, Boolean(cmdArg || false) || false)
             break
         case "/nightvision":
-
             cmdArg ?
                 Entity.addEffect(Player.get(), Native.PotionEffect.nightVision, 0, 200000) :
                 Entity.clearEffect(Player.get(), Native.PotionEffect.nightVision)
             break
         case "/fly":
-
-            Player.setAbility(Native.PlayerAbility.MAYFLY, true)
+            Player.setAbility(Native.PlayerAbility.MAYFLY, Boolean(cmdArg || false) || false)
             break
         case "/gm":
-
             switch (cmdArg) {
                 case 0: Game.setGameMode(Native.GameMode.SURVIVAL); break
                 case 1: Game.setGameMode(Native.GameMode.CREATIVE); break
@@ -112,22 +102,18 @@ Callback.addCallback("NativeCommand", function (str) {
                 default: Game.setGameMode(Native.GameMode.SURVIVAL); break
             } break
         case "/speed":
-
-            Player.setAbility(Native.PlayerAbility.WALKSPEED, 0.5)
-            Player.setAbility(Native.PlayerAbility.FLYSPEED, 0.5)
+            Player.setAbility(Native.PlayerAbility.WALKSPEED, 2.5)
+            Player.setAbility(Native.PlayerAbility.FLYSPEED, 2.5)
             break
         case "/slow":
-
             Player.setAbility(Native.PlayerAbility.WALKSPEED, 0.001)
             Player.setAbility(Native.PlayerAbility.FLYSPEED, 0.001)
             break
         case "/normalspeed":
-
             Player.setAbility(Native.PlayerAbility.WALKSPEED, 0.05)
-            Player.setAbility(Native.PlayerAbility.FLYSPEED, 0.05)
+            Player.setAbility(Native.PlayerAbility.FLYSPEED, 0.1)
             break
         case "/help":
-
             Game.message("Matrix Commands: noclip, nightvision, fly, gm, speed, slow, normalspeed"); break
     }
 })
