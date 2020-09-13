@@ -1,22 +1,40 @@
-var MatrixDimension = new Dimensions.CustomDimension("Matrix", 1200)
-var generator = new Dimensions.CustomGenerator("overworld").setModGenerationBaseDimension(0).setBuildVanillaSurfaces(true).setGenerateVanillaStructures(true)
-// MatrixDimension.setCloudColor(0, 0, 0)
-// MatrixDimension.setFogColor(0, 0, 0)
-// MatrixDimension.setSkyColor(0, 0, 0)
-// MatrixDimension.setSunsetColor(0, 0, 0)
-MatrixDimension.setFogDistance(20, 100)
-MatrixDimension.setGenerator(generator)
 
-// Callback.addCallback("LevelLoaded", function () {
-//     Dimensions.transfer(Player.get(), 1200)
-// })
-Callback.addCallback("ItemUse", function (coords, item) {
-    if (item.id == 280) {
-        alert("Current dim: " + Player.getDimension())
-        Dimensions.transfer(Player.get(), 1200)
-        alert("New dim: " + Player.getDimension())
+IDRegistry.genItemID("blue_pellet")
+IDRegistry.genItemID("red_pellet")
+
+Item.createFoodItem("blue_pellet", "Blue pellet", { name: "blue_pellet" }, { stack: 1, food: 4 })
+Item.createFoodItem("red_pellet", "Red pellet", { name: "red_pellet" }, { stack: 1, food: 4 })
+
+Callback.addCallback("FoodEaten", function () {
+    switch (Player.getCarriedItem().id) {
+        case ItemID.blue_pellet:
+            switch (Player.getDimension()) {
+                case 1:
+                case -1:
+                    Dimensions.transfer(Player.get(), 0)
+                case 0:
+                    Entity.addEffect(Player.get(), Native.PotionEffect.absorption, 5, 6000)
+                    Entity.addEffect(Player.get(), Native.PotionEffect.damageBoost, 2, 6000)
+                    Entity.addEffect(Player.get(), Native.PotionEffect.damageResistance, 2, 6000)
+                    Entity.addEffect(Player.get(), Native.PotionEffect.digSpeed, 2, 6000)
+                    break
+            }
+            break
+        case ItemID.red_pellet:
+            Entity.addEffect(Player.get(), Native.PotionEffect.regeneration, 5, 12000)
+            Entity.addEffect(Player.get(), Native.PotionEffect.damageResistance, 2, 12000)
+            Dimensions.transfer(Player.get(), 1200)
+            break
     }
 })
+
+var MatrixDimension = new Dimensions.CustomDimension("Matrix", 1200)
+var generator = new Dimensions.CustomGenerator("overworld").setModGenerationBaseDimension(0).setBuildVanillaSurfaces(true).setGenerateVanillaStructures(true)
+MatrixDimension.setCloudColor(0, 0, 0)
+// MatrixDimension.setFogColor(0, 0, 0)
+MatrixDimension.setSkyColor(0, 0, 0)
+MatrixDimension.setSunsetColor(0, 0, 0)
+MatrixDimension.setGenerator(generator)
 
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
@@ -80,7 +98,6 @@ Callback.addCallback("NativeCommand", function (str) {
     if (str[0].replace("/", '') in Matrix.commands)
         Game.prevent()
 
-    Game.dialogMessage(str + ": [" + cmdName + ', ' + typeof cmdArg + ']', "NativeCommand")
     switch (cmdName) {
         case "/noclip":
             Player.setAbility(Native.PlayerAbility.NOCLIP, Boolean(cmdArg || false) || false)
@@ -94,7 +111,7 @@ Callback.addCallback("NativeCommand", function (str) {
             Player.setAbility(Native.PlayerAbility.MAYFLY, Boolean(cmdArg || false) || false)
             break
         case "/gm":
-            switch (cmdArg) {
+            switch (Number(cmdArg)) {
                 case 0: Game.setGameMode(Native.GameMode.SURVIVAL); break
                 case 1: Game.setGameMode(Native.GameMode.CREATIVE); break
                 case 2: Game.setGameMode(Native.GameMode.ADVENTURE); break
