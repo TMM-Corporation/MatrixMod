@@ -278,5 +278,19 @@ Saver.addSavesScope("PouchScope",
 )
 Callback.addCallback("GenerateCustomDimensionChunk", function (chunkX, chunkZ, random, dimID) {
     if (dimID != 1997) return
-    GenerationUtils.findSurface(chunkX, y, chunkZ)
-});
+    // GenerationUtils.findSurface(chunkX, y, chunkZ)
+})
+
+
+IDRegistry.genBlockID("matrix_pc")
+Block.createBlock("matrix_pc", [{ name: "Pc", textures: [["cauldron_inner", 0]], inCreative: true }])
+var dishMesh = new RenderMesh()
+dishMesh.setBlockTexture("pc", 0)
+dishMesh.importFromFile(__dir__ + "assets/mod_assets/models/pc.obj", "obj",
+    {
+        translate: [1, 0, 1], scale: [1 / 16, 1 / 16, 1 / 16]
+    })
+var icrender3 = new ICRender.Model()
+icrender3.addEntry(new BlockRenderer.Model(dishMesh))
+BlockRenderer.setStaticICRender(BlockID.matrix_pc, 0, icrender3)
+Block.setShape(BlockID.matrix_pc, 0, 0, 0, 1, 2.5 / 16, 1)
