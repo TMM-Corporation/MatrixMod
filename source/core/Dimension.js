@@ -2,16 +2,31 @@
 IDRegistry.genItemID("blue_pellet")
 IDRegistry.genItemID("red_pellet")
 
-Item.createFoodItem("blue_pellet", "Blue pellet", { name: "blue_pellet" }, { stack: 1, food: 4 })
-Item.createFoodItem("red_pellet", "Red pellet", { name: "red_pellet" }, { stack: 1, food: 4 })
-
+Item.createFoodItem("blue_pellet", "Blue pellet", { name: "blue_pellet" }, { stack: 8, food: 4 })
+Item.createFoodItem("red_pellet", "Red pellet", { name: "red_pellet" }, { stack: 8, food: 4 })
+function PlayerTransfer(dim) {
+    if (dim == 1200) {
+        Matrix.time = World.getWorldTime()
+    } else {
+        World.setWorldTime(Matrix.time)
+    }
+    Dimensions.transfer(Player.get(), dim)
+    if (Player.getPosition().y < 5)
+        for (let i = 0; i < 254; i++) {
+            let pos = Player.getPosition()
+            if (World.getBlock(pos.x, i - 1, pos.z).id !== 0) {
+                Player.setPosition(pos.x, i + 1, pos.z)
+                break
+            }
+        }
+}
 Callback.addCallback("FoodEaten", function () {
     switch (Player.getCarriedItem().id) {
         case ItemID.blue_pellet:
             switch (Player.getDimension()) {
                 case 1:
                 case -1:
-                    Dimensions.transfer(Player.get(), 0)
+                    PlayerTransfer(0)
                 case 0:
                     Entity.addEffect(Player.get(), Native.PotionEffect.absorption, 5, 6000)
                     Entity.addEffect(Player.get(), Native.PotionEffect.damageBoost, 2, 6000)
@@ -23,7 +38,7 @@ Callback.addCallback("FoodEaten", function () {
         case ItemID.red_pellet:
             Entity.addEffect(Player.get(), Native.PotionEffect.regeneration, 5, 12000)
             Entity.addEffect(Player.get(), Native.PotionEffect.damageResistance, 2, 12000)
-            Dimensions.transfer(Player.get(), 1200)
+            PlayerTransfer(1200)
             break
     }
 })
@@ -41,6 +56,7 @@ function randomInt(min, max) {
 }
 var Matrix = {
     ticks: 0,
+    time: 0,
     particles: [],
     commands: {
         noclip: null, nightvision: null, slow: null,
@@ -128,10 +144,44 @@ Callback.addCallback("NativeCommand", function (str) {
             break
         case "/transfer":
             let dim = Player.getDimension()
-            if (dim != 0 && dim != 1 && dim != -1)
-                Dimensions.transfer(Player.get(), Number(cmdArg) || 0)
+            if (dim != 0 && dim != 1 && dim != -1) PlayerTransfer(Number(cmdArg) || 0)
             break
         case "/help":
             Game.message("Matrix Commands: noclip, nightvision, fly, gm, speed, slow, normalspeed"); break
     }
+})
+
+IDRegistry.genBlockID("matrix_tel")
+Block.createBlock("matrix_tel", [{ name: "Matrix Telephone", textures: [["cauldron_inner", 0]], inCreative: true }])
+var telMesh = new RenderMesh()
+telMesh.setBlockTexture("tel", 0)
+telMesh.importFromFile(__dir__ + "assets/mod_assets/models/tel.obj", "obj", { translate: [1, 0, 1], scale: [1 / 16, 1 / 16, 1 / 16] })
+let icrender = new ICRender.Model()
+icrender.addEntry(new BlockRenderer.Model(telMesh))
+BlockRenderer.setStaticICRender(BlockID.matrix_tel, 0, icrender)
+
+Callback.addCallback("ItemUse", function (coords, item, block) {
+    if (block.id == BlockID.matrix_tel) {
+        PlayerTransfer(0)
+    }
+})
+function getBlockRotation(isFull) {
+    var pitch = Entity.getLookAngle(Player.get()).pitch
+    if (isFull) {
+        if (pitch < -45) return 0
+        if (pitch > 45) return 1
+    }
+    var yaw = Entity.getLookAngle(Player.get()).yaw
+    while (yaw == 0) {
+        var yaw = Entity.getLookAngle(Player.get()).yaw
+    }
+    if (yaw == 0) return this.getBlockRotation(isFull)
+    var rotation = Math.floor((yaw - 45) % 360 / 90)
+    if (rotation < 0) rotation += 4
+    rotation = [3, 1, 2, 0][rotation]
+    if (isFull) return rotation + 2
+    return rotation
+}
+Block.registerPlaceFunction(BlockID.matrix_tel, function () {
+
 })
