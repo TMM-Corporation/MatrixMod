@@ -43,13 +43,9 @@ var Matrix = {
     ticks: 0,
     particles: [],
     commands: {
-        noclip: false,
-        nightvision: false,
-        fly: false,
-        gm: false,
-        speed: false,
-        slow: false,
-        normalspeed: false
+        noclip: null, nightvision: null, slow: null,
+        fly: null, gm: null, speed: null,
+        normalspeed: null, transfer: null,
     },
     regParticles(list) {
         for (let i in list) {
@@ -129,6 +125,11 @@ Callback.addCallback("NativeCommand", function (str) {
         case "/normalspeed":
             Player.setAbility(Native.PlayerAbility.WALKSPEED, 0.05)
             Player.setAbility(Native.PlayerAbility.FLYSPEED, 0.1)
+            break
+        case "/transfer":
+            let dim = Player.getDimension()
+            if (dim != 0 && dim != 1 && dim != -1)
+                Dimensions.transfer(Player.get(), Number(cmdArg) || 0)
             break
         case "/help":
             Game.message("Matrix Commands: noclip, nightvision, fly, gm, speed, slow, normalspeed"); break
