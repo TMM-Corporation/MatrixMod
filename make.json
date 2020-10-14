@@ -1,0 +1,75 @@
+{
+	"global": {
+		"info": {
+			"name": "Matrix Mod",
+			"author": "TooManyMods",
+			"version": "1.1",
+			"description": "The mod adds a few things and a matrix dimension",
+			"icon": "MatrixMod/mod_icon.png"
+		},
+		"api": "CoreEngine"
+	},
+	"make": {
+		"debugAbi": "armeabi-v7a",
+		"abis": [
+			"armeabi-v7a",
+			"x86"
+		],
+		"linkNative": [
+			"minecraftpe",
+			"innercore",
+			"nativejs"
+		],
+		"excludeFromRelease": [],
+		"pushTo": "storage/emulated/0/games/horizon/packs/main-dev/innercore/mods/MatrixMod",
+		"ndkPath": null
+	},
+	"resources": [
+		{
+			"path": "MatrixMod/src/assets/mod_assets",
+			"type": "resource_directory"
+		},
+		{
+			"path": "MatrixMod/src/assets/mod_assets/gui",
+			"type": "gui"
+		},
+		{
+			"path": "MatrixMod/src/assets/minecraft/resource/*",
+			"type": "minecraft_resource_pack"
+		},
+		{
+			"path": "MatrixMod/src/assets/minecraft/behavior/*",
+			"type": "minecraft_behavior_pack"
+		}
+	],
+	"sources": [
+		{
+			"source": "MatrixMod/src/dev",
+			"target": "main.js",
+			"type": "main",
+			"language": "javascript"
+		},
+		{
+			"source": "MatrixMod/src/launcher.js",
+			"type": "launcher",
+			"language": "javascript"
+		},
+		{
+			"source": "MatrixMod/src/lib/*",
+			"type": "library",
+			"language": "javascript"
+		},
+		{
+			"source": "MatrixMod/src/preloader/*",
+			"type": "preloader",
+			"language": "javascript"
+		}
+	],
+	"compile": [],
+	"additional": [
+		{
+			"source": "MatrixMod/src/assets/root/*",
+			"targetDir": "."
+		}
+	]
+}

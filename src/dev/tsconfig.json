@@ -1,0 +1,28 @@
+{
+	"compilerOptions": {
+		"target": "ES5",
+		"lib": [
+			"ESNext"
+		],
+		"outFile": "D:\\ToxesFoxes\\Documents\\GitHub\\Projects\\toolchain\\build\\project\\sources\\main.js",
+		"experimentalDecorators": true,
+		"downlevelIteration": true,
+		"allowJs": true
+	},
+	"exclude": [
+		"**/node_modules/*",
+		"dom",
+		"webpack"
+	],
+	"include": [
+		"MatrixTransfer.js",
+		"Blocks.js",
+		"Pellets.js",
+		"Dimension.js"
+	],
+	"files": [
+		"D:\\ToxesFoxes\\Documents\\GitHub\\Projects\\toolchain\\declarations\\android-declarations.d.ts",
+		"D:\\ToxesFoxes\\Documents\\GitHub\\Projects\\toolchain\\declarations\\android.d.ts",
+		"D:\\ToxesFoxes\\Documents\\GitHub\\Projects\\toolchain\\declarations\\core-engine.d.ts"
+	]
+}
