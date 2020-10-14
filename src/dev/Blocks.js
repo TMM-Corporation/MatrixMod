@@ -36,10 +36,14 @@ function regBlockWithModel(block, meshProps, shp) {
             mesh.setBlockTexture(meshProps.texture, 0)
             mesh.importFromFile(__dir__ + "resources/mod_assets/models/" + meshProps.modelFile, "obj", { translate: [1, 0, 1], scale: [1 / 16, 1 / 16, 1 / 16] })
             mesh.rotate(0.5, 0.5, 0.5, 0, rotations[i], 0)
+            mesh.rebuild()
+            mesh.setColor(255, 255, 255)
             icr.addEntry(new BlockRenderer.Model(mesh))
             BlockRenderer.setStaticICRender(BlockID[block.id], i, icr)
             ItemModel.getFor(BlockID[block.id], i).setHandModel(mesh, meshProps.texture)
-            if (meshProps.addToCreativeVariations)
+            if (!meshProps.addToCreativeVariations && i == 0)
+                Item.addToCreative(BlockID[block.id], 1, i)
+            else if (meshProps.addToCreativeVariations)
                 Item.addToCreative(BlockID[block.id], 1, i)
         }
     }
@@ -66,8 +70,8 @@ regBlockWithModel(
     { id: 'matrix_dish', name: 'Dish', textures: [['cauldron_inner', 0], ['cauldron_inner', 0], ['cauldron_inner', 0]] },
     { texture: 'dish', modelFile: 'dish.obj', addToCreativeVariations: false },
     {
-        from: { x: 3 / 16, y: 9 / 16, z: 3 / 16 },
-        to: { x: 13 / 16, y: 14 / 16, z: 13 / 16 }
+        from: { x: 3 / 16, y: 0 / 16, z: 3 / 16 },
+        to: { x: 13 / 16, y: 2 / 16, z: 13 / 16 }
     }
 )
 regBlockWithModel(
