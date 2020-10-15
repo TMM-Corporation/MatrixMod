@@ -201,8 +201,8 @@ TileEntity.registerPrototype(BlockID.matrix_dish, {
         let client = Network.getClientForPlayer(player)
         let clientPlayer = client.getPlayerUid()
         let bs = BlockSource.getDefaultForActor(clientPlayer)
-        alert('1:  ' + item.id + ' ' + item.count + ' ' + item.data)
-        alert('1:  ' + id + ' ' + count + ' ' + data)
+        // alert('1:  ' + item.id + ' ' + item.count + ' ' + item.data)
+        // alert('1:  ' + id + ' ' + count + ' ' + data)
         if (item.id == 0 && item.count == 0 && id !== 0 && count != 0) {
             count = 1
             let carr = Entity.getCarriedItem(clientPlayer)
@@ -214,8 +214,8 @@ TileEntity.registerPrototype(BlockID.matrix_dish, {
 
         con.setSlot("itemSlot", id, count, data)
         con.validateSlot("itemSlot")
-        alert('2:  ' + item.id + ' ' + item.count + ' ' + item.data)
-        alert('2:  ' + id + ' ' + count + ' ' + data)
+        // alert('2:  ' + item.id + ' ' + item.count + ' ' + item.data)
+        // alert('2:  ' + id + ' ' + count + ' ' + data)
         con.sendChanges()
         this.networkData.putInt("itemId", id)
         this.networkData.putInt("itemData", data)

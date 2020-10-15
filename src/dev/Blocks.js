@@ -19,8 +19,8 @@ function getBlockRotation(isFull, clientPlayer) {
     if (rotation < 0) rotation += 4
 
     rotation = [3, 1, 2, 0][rotation]
-    alert(pitch)
-    alert(yaw)
+    // alert(pitch)
+    // alert(yaw)
     return isFull ? rotation + 2 : rotation
 }
 
@@ -103,6 +103,6 @@ regBlockWithModel({
         props: { count: 1, data: 0 }
     }
 })
-Callback.addCallback("ItemUse", function (coords, i, block) {
-    alert(Item.getName(i.id, i.data) + ' = ' + i.id + ', ' + i.data)
-})
+// Callback.addCallback("ItemUse", function (coords, i, block) {
+//     // alert(Item.getName(i.id, i.data) + ' = ' + i.id + ', ' + i.data)
+// })
