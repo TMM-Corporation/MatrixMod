@@ -23,8 +23,9 @@ var Matrix = {
         "Follow the white rabbit."
     ],
     rainStyles: {
-        normal: 9,
-        zero_one: 2
+        styles: [9, 2, 5, 1, 7],
+        current: 0,
+        multiplier: 1
     },
     commands: {
         noclip: null, nightvision: null, slow: null,
@@ -45,17 +46,17 @@ var Matrix = {
     },
     tick() {
         this.data.ticks++
-
         if (this.data.first == true)
             this.startDialog()
     },
     add(coords, radius, count) {
-        let rainStyle = this.rainStyles.zero_one
+        let rainStyle = this.rainStyles
+        let rainStyle = rainStyle.styles[rainStyle.current]
         for (var i = 0; i < count; i++) {
             let x = coords.x - radius + Math.random() * radius * 2
             let y = coords.y - radius + Math.random() * radius * 2
             let z = coords.z - radius + Math.random() * radius * 2
-            for (let i = 0; i < rainStyle; i++)
+            for (let i = 0; i < rainStyle * rainStyle.multiplier; i++)
                 Particles.addParticle(this.particles[randomInt(0, rainStyle - 1)], x + Math.random() * 1.382, y + i, z + Math.random() * 1.382, 0, -0.35, 0)
         }
     },
@@ -66,16 +67,15 @@ var Matrix = {
             case 160:
                 Game.message(Native.Color.GREEN + this.dialog[2])
                 let c = Player.getPosition()
-                Entity.spawn(c.x + randomInt(5, 15), c.y + 2, c.z + randomInt(5, 15), Native.EntityType.RABBIT)
+                Entity.spawn(c.x + randomInt(3, 5), c.y + 2, c.z + randomInt(2, 6), Native.EntityType.RABBIT)
                 this.data.first == false
                 this.data.ticks == 0
                 break
         }
-
     }
 }
 
-Matrix.regParticles(["m0", "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9",])
+Matrix.regParticles(["m0", "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9"])
 
 Callback.addCallback("LocalTick", function () {
     let coords = Entity.getPosition(Player.get())
@@ -115,6 +115,14 @@ Callback.addCallback("NativeCommand", function (str) {
                 case 3: Game.setGameMode(Native.GameMode.SPECTATOR); break
                 default: Game.setGameMode(Native.GameMode.SURVIVAL); break
             } break
+        case "/rainstyle":
+            let num = Number(cmdArg)
+            Matrix.rainStyles.current = num < Matrix.rainStyles.styles.length - 1 ? num : 0
+            break
+        case '/rainmultiplier':
+            let num = Number(cmdArg)
+            Matrix.rainStyles.multiplier = num
+            break
         case "/speed":
             Player.setAbility(Native.PlayerAbility.WALKSPEED, 2.5)
             Player.setAbility(Native.PlayerAbility.FLYSPEED, 2.5)
@@ -168,7 +176,7 @@ TileEntity.registerPrototype(BlockID.matrix_dish, {
         updateItem() {
             let id = Network.serverToLocalId(this.networkData.getInt("itemId"))
             let data = this.networkData.getInt("itemData")
-            
+
             this.itemAnim.load()
             this.itemAnim.describeItem({
                 id: id, count: 1, data: data, notRandomize: true, rotation: [Math.PI / 2, 0, 0], size: 0.5
@@ -235,5 +243,7 @@ Callback.addCallback("GenerateCustomDimensionChunk", function (chunkX, chunkZ, r
     if (dimID != 1997) return
     var coords = GenerationUtils.findSurface(chunkX * 16 + random.nextInt(16), 96, chunkZ * 16 + random.nextInt(16))
     // generateMetro()
+    //TODO: тут должна быть генерация структур через Structure Api но эта либа не оптимизирована для мультиплеера
+    // структуры могу скинуть в личку картой
 })
 
