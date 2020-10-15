@@ -151,23 +151,6 @@ Callback.addCallback("ItemUse", function (coords, item, block, isExternal, playe
         PlayerTransfer(0, clientPlayer)
     }
 })
-function getBlockRotation(isFull) {
-    var pitch = Entity.getLookAngle(Player.get()).pitch
-    if (isFull) {
-        if (pitch < -45) return 0
-        if (pitch > 45) return 1
-    }
-    var yaw = Entity.getLookAngle(Player.get()).yaw
-    while (yaw == 0) {
-        var yaw = Entity.getLookAngle(Player.get()).yaw
-    }
-    if (yaw == 0) return this.getBlockRotation(isFull)
-    var rotation = Math.floor((yaw - 45) % 360 / 90)
-    if (rotation < 0) rotation += 4
-    rotation = [3, 1, 2, 0][rotation]
-    if (isFull) return rotation + 2
-    return rotation
-}
 
 
 TileEntity.registerPrototype(BlockID.matrix_dish, {
