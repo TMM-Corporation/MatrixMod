@@ -51,13 +51,13 @@ var Matrix = {
     },
     add(coords, radius, count) {
         let rainStyle = this.rainStyles
-        let rainStyle = rainStyle.styles[rainStyle.current]
+        let style = rainStyle.styles[rainStyle.current]
         for (var i = 0; i < count; i++) {
             let x = coords.x - radius + Math.random() * radius * 2
             let y = coords.y - radius + Math.random() * radius * 2
             let z = coords.z - radius + Math.random() * radius * 2
-            for (let i = 0; i < rainStyle * rainStyle.multiplier; i++)
-                Particles.addParticle(this.particles[randomInt(0, rainStyle - 1)], x + Math.random() * 1.382, y + i, z + Math.random() * 1.382, 0, -0.35, 0)
+            for (let i = 0; i < style * rainStyle.multiplier; i++)
+                Particles.addParticle(this.particles[randomInt(0, 8)], x + Math.random() * 1.382, y + i, z + Math.random() * 1.382, 0, -0.35, 0)
         }
     },
     startDialog() {
